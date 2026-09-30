@@ -46,6 +46,19 @@ function Clusters() {
         collapse into one development need with a radius, a population and an evidence base.
       </p>
 
+      <div className="surface-panel mt-6 p-5 text-sm">
+        <p className="label-eyebrow">How priority is scored</p>
+        <p className="mt-2 font-mono text-xs">priority = 0.45 × demand + 0.45 × gap + 0.10 × severity (avg severity ÷ 5 × 100)</p>
+        <p className="mt-2 text-muted-foreground">
+          Demand reflects request volume, density and recurrence. Gap reflects how far existing assets and funded
+          projects fall short. Because it is a weighted average, priority always sits between its inputs.
+        </p>
+        <p className="mt-2 text-muted-foreground">
+          Request counts are aggregates: historic grievance-portal records (demo figures) plus reports submitted
+          through JanNexus. Only a sample of individual reports is stored in this demo.
+        </p>
+      </div>
+
       <div className="mt-8 space-y-4">
         {data.clusters.map((cluster) => {
           const level = signalLevel(Number(cluster.priority_score));
@@ -91,6 +104,13 @@ function Clusters() {
                 <div className="grid gap-6 border-t border-border/60 px-6 py-5 md:grid-cols-2">
                   <div>
                     <p className="label-eyebrow">Sample requests in this cluster</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {members.length} individual report{members.length === 1 ? "" : "s"} stored of{" "}
+                      {formatCount(cluster.request_count)} aggregated · {cluster.count_source}
+                    </p>
+                    <p className="mt-1 numeric text-xs text-muted-foreground">
+                      {`0.45 × ${Number(cluster.demand_score)} + 0.45 × ${Number(cluster.gap_score)} + 0.10 × ${Math.round((Number(cluster.severity_avg) / 5) * 100)} = ${Number(cluster.priority_score)}`}
+                    </p>
                     <ul className="mt-3 space-y-3">
                       {members.length ? (
                         members.map((request) => (

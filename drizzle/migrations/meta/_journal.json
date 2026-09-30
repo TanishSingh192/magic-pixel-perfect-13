@@ -15,6 +15,13 @@
       "when": 1790761158587,
       "tag": "0001_restrict_citizen_reports_to_signed_in",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790763605015,
+      "tag": "0002_fix_verification_findings",
+      "breakpoints": true
     }
   ]
 }
