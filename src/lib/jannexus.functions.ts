@@ -111,6 +111,11 @@ export const submitCitizenRequest = createServerFn({ method: "POST" })
         confidence: data.confidence,
         inferred: data.inferred,
         evidence: data.evidence,
+        channel: data.evidence.includes("citizen_voice")
+          ? "web_voice"
+          : data.evidence.includes("citizen_image")
+            ? "web_image"
+            : "web_text",
       },
     });
     if (error) throw new Error(error.message);
