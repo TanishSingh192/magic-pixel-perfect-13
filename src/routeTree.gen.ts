@@ -10,48 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BudgetRouteImport } from './routes/budget'
-import { Route as ClustersRouteImport } from './routes/clusters'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as ImpactRouteImport } from './routes/impact'
 import { Route as McpRouteImport } from './routes/mcp'
-import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as ReportRouteImport } from './routes/report'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AuthenticatedBudgetRouteImport } from './routes/_authenticated/budget'
+import { Route as AuthenticatedClustersRouteImport } from './routes/_authenticated/clusters'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedImpactRouteImport } from './routes/_authenticated/impact'
+import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BudgetRoute = BudgetRouteImport.update({
-  id: '/budget',
-  path: '/budget',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClustersRoute = ClustersRouteImport.update({
-  id: '/clusters',
-  path: '/clusters',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ImpactRoute = ImpactRouteImport.update({
-  id: '/impact',
-  path: '/impact',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecommendationsRoute = RecommendationsRouteImport.update({
-  id: '/recommendations',
-  path: '/recommendations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportRoute = ReportRouteImport.update({
@@ -65,87 +40,113 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedBudgetRoute = AuthenticatedBudgetRouteImport.update({
+  id: '/_authenticated/budget',
+  path: '/budget',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedClustersRoute = AuthenticatedClustersRouteImport.update({
+  id: '/_authenticated/clusters',
+  path: '/clusters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/_authenticated/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedImpactRoute = AuthenticatedImpactRouteImport.update({
+  id: '/_authenticated/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRecommendationsRoute =
+  AuthenticatedRecommendationsRouteImport.update({
+    id: '/_authenticated/recommendations',
+    path: '/recommendations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/budget': typeof BudgetRoute
-  '/clusters': typeof ClustersRoute
-  '/dashboard': typeof DashboardRoute
-  '/impact': typeof ImpactRoute
   '/mcp': typeof McpRoute
-  '/recommendations': typeof RecommendationsRoute
   '/report': typeof ReportRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/budget': typeof AuthenticatedBudgetRoute
+  '/clusters': typeof AuthenticatedClustersRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/impact': typeof AuthenticatedImpactRoute
+  '/recommendations': typeof AuthenticatedRecommendationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/budget': typeof BudgetRoute
-  '/clusters': typeof ClustersRoute
-  '/dashboard': typeof DashboardRoute
-  '/impact': typeof ImpactRoute
   '/mcp': typeof McpRoute
-  '/recommendations': typeof RecommendationsRoute
   '/report': typeof ReportRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/budget': typeof AuthenticatedBudgetRoute
+  '/clusters': typeof AuthenticatedClustersRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/impact': typeof AuthenticatedImpactRoute
+  '/recommendations': typeof AuthenticatedRecommendationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/budget': typeof BudgetRoute
-  '/clusters': typeof ClustersRoute
-  '/dashboard': typeof DashboardRoute
-  '/impact': typeof ImpactRoute
   '/mcp': typeof McpRoute
-  '/recommendations': typeof RecommendationsRoute
   '/report': typeof ReportRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_authenticated/budget': typeof AuthenticatedBudgetRoute
+  '/_authenticated/clusters': typeof AuthenticatedClustersRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/impact': typeof AuthenticatedImpactRoute
+  '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/mcp'
+    | '/report'
+    | '/.well-known/oauth-protected-resource'
     | '/budget'
     | '/clusters'
     | '/dashboard'
     | '/impact'
-    | '/mcp'
     | '/recommendations'
-    | '/report'
-    | '/.well-known/oauth-protected-resource'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/mcp'
+    | '/report'
+    | '/.well-known/oauth-protected-resource'
     | '/budget'
     | '/clusters'
     | '/dashboard'
     | '/impact'
-    | '/mcp'
     | '/recommendations'
-    | '/report'
-    | '/.well-known/oauth-protected-resource'
   id:
     | '__root__'
     | '/'
-    | '/budget'
-    | '/clusters'
-    | '/dashboard'
-    | '/impact'
     | '/mcp'
-    | '/recommendations'
     | '/report'
     | '/.well-known/oauth-protected-resource'
+    | '/_authenticated/budget'
+    | '/_authenticated/clusters'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/impact'
+    | '/_authenticated/recommendations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BudgetRoute: typeof BudgetRoute
-  ClustersRoute: typeof ClustersRoute
-  DashboardRoute: typeof DashboardRoute
-  ImpactRoute: typeof ImpactRoute
   McpRoute: typeof McpRoute
-  RecommendationsRoute: typeof RecommendationsRoute
   ReportRoute: typeof ReportRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  AuthenticatedBudgetRoute: typeof AuthenticatedBudgetRoute
+  AuthenticatedClustersRoute: typeof AuthenticatedClustersRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedImpactRoute: typeof AuthenticatedImpactRoute
+  AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -157,46 +158,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/budget': {
-      id: '/budget'
-      path: '/budget'
-      fullPath: '/budget'
-      preLoaderRoute: typeof BudgetRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/clusters': {
-      id: '/clusters'
-      path: '/clusters'
-      fullPath: '/clusters'
-      preLoaderRoute: typeof ClustersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/impact': {
-      id: '/impact'
-      path: '/impact'
-      fullPath: '/impact'
-      preLoaderRoute: typeof ImpactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recommendations': {
-      id: '/recommendations'
-      path: '/recommendations'
-      fullPath: '/recommendations'
-      preLoaderRoute: typeof RecommendationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/report': {
@@ -213,20 +179,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/budget': {
+      id: '/_authenticated/budget'
+      path: '/budget'
+      fullPath: '/budget'
+      preLoaderRoute: typeof AuthenticatedBudgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/clusters': {
+      id: '/_authenticated/clusters'
+      path: '/clusters'
+      fullPath: '/clusters'
+      preLoaderRoute: typeof AuthenticatedClustersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/impact': {
+      id: '/_authenticated/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof AuthenticatedImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/recommendations': {
+      id: '/_authenticated/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof AuthenticatedRecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BudgetRoute: BudgetRoute,
-  ClustersRoute: ClustersRoute,
-  DashboardRoute: DashboardRoute,
-  ImpactRoute: ImpactRoute,
   McpRoute: McpRoute,
-  RecommendationsRoute: RecommendationsRoute,
   ReportRoute: ReportRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  AuthenticatedBudgetRoute: AuthenticatedBudgetRoute,
+  AuthenticatedClustersRoute: AuthenticatedClustersRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedImpactRoute: AuthenticatedImpactRoute,
+  AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

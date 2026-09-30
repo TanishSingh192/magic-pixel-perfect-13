@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 function publicClient() {
   const url = process.env["SUPABASE_URL"]!;
@@ -27,8 +28,11 @@ export type Asset = Database["public"]["Tables"]["infrastructure_assets"]["Row"]
 export type CitizenRequest = Database["public"]["Tables"]["citizen_requests"]["Row"];
 export type ImpactMetric = Database["public"]["Tables"]["impact_metrics"]["Row"];
 
-export const getPlatformData = createServerFn({ method: "GET" }).handler(async () => {
-  const supabase = publicClient();
+// Planner console data — signed-in only (citizen reports are private).
+export const getPlatformData = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+  const supabase = context.supabase;
   const [clusters, recommendations, projects, assets, requests, metrics] = await Promise.all([
     supabase.from("development_clusters").select("*").order("priority_score", { ascending: false }),
     supabase.from("recommendations").select("*").order("priority_score", { ascending: false }),
@@ -67,6 +71,7 @@ export const getPlatformData = createServerFn({ method: "GET" }).handler(async (
   };
 });
 
+// Citizens report without an account; the database function only returns their own reference.
 export const submitCitizenRequest = createServerFn({ method: "POST" })
   .inputValidator(
     (input: {
@@ -89,9 +94,8 @@ export const submitCitizenRequest = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const supabase = publicClient();
-    const { data: row, error } = await supabase
-      .from("citizen_requests")
-      .insert({
+    const { data: rows, error } = await supabase.rpc("submit_citizen_request", {
+      payload: {
         language: data.language,
         raw_text: data.rawText,
         stated_summary: data.statedSummary,
@@ -107,34 +111,34 @@ export const submitCitizenRequest = createServerFn({ method: "POST" })
         confidence: data.confidence,
         inferred: data.inferred,
         evidence: data.evidence,
-      })
-      .select("id, public_ref")
-      .single();
+      },
+    });
     if (error) throw new Error(error.message);
-    return row;
+    const row = Array.isArray(rows) ? rows[0] : rows;
+    if (!row) throw new Error("Report was not saved");
+    return { id: row.id as string, public_ref: row.public_ref as string };
   });
 
 export const confirmCitizenRequest = createServerFn({ method: "POST" })
   .inputValidator((input: { id: string; confirmed: boolean; correction?: string | null }) => input)
   .handler(async ({ data }) => {
     const supabase = publicClient();
-    const patch: { confirmed: boolean; status: string; raw_text?: string } = {
-      confirmed: data.confirmed,
-      status: data.confirmed ? "confirmed" : "needs_review",
-    };
-    if (data.correction) patch.raw_text = data.correction;
-    const { error } = await supabase.from("citizen_requests").update(patch).eq("id", data.id);
+    const { error } = await supabase.rpc("confirm_citizen_request", {
+      _id: data.id,
+      _confirmed: data.confirmed,
+      _correction: data.correction ?? "",
+    });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const setRecommendationDecision = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .inputValidator((input: { id: string; status: string; note?: string | null }) => input)
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const allowed = ["pending", "accepted", "modified", "rejected", "investigating"];
     if (!allowed.includes(data.status)) throw new Error("Unsupported decision");
-    const supabase = publicClient();
-    const { error } = await supabase
+    const { error } = await context.supabase
       .from("recommendations")
       .update({ status: data.status, decision_note: data.note ?? null })
       .eq("id", data.id);
