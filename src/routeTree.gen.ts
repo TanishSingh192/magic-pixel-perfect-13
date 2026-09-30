@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BudgetRouteImport } from './routes/budget'
+import { Route as ClustersRouteImport } from './routes/clusters'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as RecommendationsRouteImport } from './routes/recommendations'
+import { Route as ReportRouteImport } from './routes/report'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BudgetRoute = BudgetRouteImport.update({
+  id: '/budget',
+  path: '/budget',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClustersRoute = ClustersRouteImport.update({
+  id: '/clusters',
+  path: '/clusters',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecommendationsRoute = RecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportRoute = ReportRouteImport.update({
+  id: '/report',
+  path: '/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/budget': typeof BudgetRoute
+  '/clusters': typeof ClustersRoute
+  '/dashboard': typeof DashboardRoute
+  '/impact': typeof ImpactRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/report': typeof ReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/budget': typeof BudgetRoute
+  '/clusters': typeof ClustersRoute
+  '/dashboard': typeof DashboardRoute
+  '/impact': typeof ImpactRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/report': typeof ReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/budget': typeof BudgetRoute
+  '/clusters': typeof ClustersRoute
+  '/dashboard': typeof DashboardRoute
+  '/impact': typeof ImpactRoute
+  '/recommendations': typeof RecommendationsRoute
+  '/report': typeof ReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/budget'
+    | '/clusters'
+    | '/dashboard'
+    | '/impact'
+    | '/recommendations'
+    | '/report'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/budget'
+    | '/clusters'
+    | '/dashboard'
+    | '/impact'
+    | '/recommendations'
+    | '/report'
+  id:
+    | '__root__'
+    | '/'
+    | '/budget'
+    | '/clusters'
+    | '/dashboard'
+    | '/impact'
+    | '/recommendations'
+    | '/report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BudgetRoute: typeof BudgetRoute
+  ClustersRoute: typeof ClustersRoute
+  DashboardRoute: typeof DashboardRoute
+  ImpactRoute: typeof ImpactRoute
+  RecommendationsRoute: typeof RecommendationsRoute
+  ReportRoute: typeof ReportRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/budget': {
+      id: '/budget'
+      path: '/budget'
+      fullPath: '/budget'
+      preLoaderRoute: typeof BudgetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clusters': {
+      id: '/clusters'
+      path: '/clusters'
+      fullPath: '/clusters'
+      preLoaderRoute: typeof ClustersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recommendations': {
+      id: '/recommendations'
+      path: '/recommendations'
+      fullPath: '/recommendations'
+      preLoaderRoute: typeof RecommendationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/report': {
+      id: '/report'
+      path: '/report'
+      fullPath: '/report'
+      preLoaderRoute: typeof ReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BudgetRoute: BudgetRoute,
+  ClustersRoute: ClustersRoute,
+  DashboardRoute: DashboardRoute,
+  ImpactRoute: ImpactRoute,
+  RecommendationsRoute: RecommendationsRoute,
+  ReportRoute: ReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
