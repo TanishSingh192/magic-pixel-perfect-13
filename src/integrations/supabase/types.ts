@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           affected_population_estimate: number | null
           category: string | null
+          channel: string
           cluster_id: string | null
           confidence: number | null
           confirmed: boolean
@@ -43,6 +44,7 @@ export type Database = {
         Insert: {
           affected_population_estimate?: number | null
           category?: string | null
+          channel?: string
           cluster_id?: string | null
           confidence?: number | null
           confirmed?: boolean
@@ -68,6 +70,7 @@ export type Database = {
         Update: {
           affected_population_estimate?: number | null
           category?: string | null
+          channel?: string
           cluster_id?: string | null
           confidence?: number | null
           confirmed?: boolean
@@ -104,6 +107,7 @@ export type Database = {
         Row: {
           affected_population: number
           category: string
+          count_source: string
           created_at: string
           demand_score: number
           district: string
@@ -128,6 +132,7 @@ export type Database = {
         Insert: {
           affected_population?: number
           category: string
+          count_source?: string
           created_at?: string
           demand_score?: number
           district: string
@@ -152,6 +157,7 @@ export type Database = {
         Update: {
           affected_population?: number
           category?: string
+          count_source?: string
           created_at?: string
           demand_score?: number
           district?: string
@@ -181,6 +187,7 @@ export type Database = {
           current: number
           id: string
           metric: string
+          project_id: string | null
           recommendation_id: string | null
           target: number
           unit: string
@@ -190,6 +197,7 @@ export type Database = {
           current: number
           id?: string
           metric: string
+          project_id?: string | null
           recommendation_id?: string | null
           target: number
           unit: string
@@ -199,11 +207,19 @@ export type Database = {
           current?: number
           id?: string
           metric?: string
+          project_id?: string | null
           recommendation_id?: string | null
           target?: number
           unit?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "impact_metrics_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "impact_metrics_recommendation_id_fkey"
             columns: ["recommendation_id"]
