@@ -6,7 +6,7 @@ import { formatCount, formatInr, signalDot, signalLevel, titleCase } from "@/lib
 import { platformQuery } from "@/lib/platform-query";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/budget")({
+export const Route = createFileRoute("/_authenticated/budget")({
   head: () => ({
     meta: [
       { title: "Budget scenarios — JanNexus" },

@@ -13,7 +13,7 @@ import {
 import { platformQuery } from "@/lib/platform-query";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/clusters")({
+export const Route = createFileRoute("/_authenticated/clusters")({
   head: () => ({
     meta: [
       { title: "Development clusters — JanNexus" },

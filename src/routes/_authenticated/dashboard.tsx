@@ -14,7 +14,7 @@ import {
 import { platformQuery } from "@/lib/platform-query";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Planner console — JanNexus" },

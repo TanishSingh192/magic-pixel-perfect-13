@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { formatCount, formatInr, statusLabel, titleCase } from "@/lib/jannexus-format";
 import { platformQuery } from "@/lib/platform-query";
 
-export const Route = createFileRoute("/impact")({
+export const Route = createFileRoute("/_authenticated/impact")({
   head: () => ({
     meta: [
       { title: "Impact tracking — JanNexus" },
