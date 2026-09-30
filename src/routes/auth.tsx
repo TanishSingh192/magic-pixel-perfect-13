@@ -10,7 +10,7 @@ const NEXT_KEY = "jannexus:auth-next";
 export const Route = createFileRoute("/auth")({
   ssr: false,
   validateSearch: (s: Record<string, unknown>) => ({
-    next: typeof s.next === "string" ? s.next : undefined,
+    next: typeof s["next"] === "string" ? s["next"] : undefined,
   }),
   head: () => ({
     meta: [
