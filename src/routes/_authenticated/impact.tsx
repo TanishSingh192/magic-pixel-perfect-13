@@ -3,6 +3,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { formatCount, formatInr, statusLabel, titleCase } from "@/lib/jannexus-format";
 import { platformQuery } from "@/lib/platform-query";
+import type { ImpactMetric } from "@/lib/jannexus.functions";
 
 export const Route = createFileRoute("/_authenticated/impact")({
   head: () => ({
@@ -24,9 +25,7 @@ export const Route = createFileRoute("/_authenticated/impact")({
   component: Impact,
 });
 
-type Metric = (typeof import("@/lib/jannexus.functions"))["getPlatformData"] extends never
-  ? never
-  : { id: string; metric: string; unit: string; baseline: number; current: number; target: number };
+type Metric = ImpactMetric;
 
 const LIVE_STATUSES = ["accepted", "modified"];
 
