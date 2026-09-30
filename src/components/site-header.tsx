@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -12,8 +13,24 @@ const links = [
   { to: "/impact", label: "Impact" },
 ] as const;
 
+function useSignedIn() {
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data } = supabase.auth.onAuthStateChange((_e, s) => setSignedIn(!!s));
+    return () => data.subscription.unsubscribe();
+  }, []);
+  return signedIn;
+}
+
+async function signOut() {
+  await supabase.auth.signOut();
+  window.location.assign("/");
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const signedIn = useSignedIn();
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur-lg">
@@ -36,6 +53,23 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          {signedIn ? (
+            <button
+              type="button"
+              onClick={signOut}
+              className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+            >
+              Sign out
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              search={{ next: undefined }}
+              className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+            >
+              Sign in
+            </Link>
+          )}
           <Link
             to="/report"
             className="ml-2 inline-flex items-center rounded-md bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
@@ -67,6 +101,20 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
+          {signedIn ? (
+            <button type="button" onClick={signOut} className="rounded-md px-3 py-2 text-left text-sm text-muted-foreground">
+              Sign out
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              search={{ next: undefined }}
+              onClick={() => setOpen(false)}
+              className="rounded-md px-3 py-2 text-sm text-muted-foreground"
+            >
+              Sign in
+            </Link>
+          )}
           <Link
             to="/report"
             onClick={() => setOpen(false)}

@@ -388,7 +388,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      confirm_citizen_request: {
+        Args: { _confirmed: boolean; _correction: string; _id: string }
+        Returns: boolean
+      }
+      submit_citizen_request: {
+        Args: { payload: Json }
+        Returns: {
+          id: string
+          public_ref: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -17,7 +17,7 @@ import {
 import { platformQuery } from "@/lib/platform-query";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/recommendations")({
+export const Route = createFileRoute("/_authenticated/recommendations")({
   head: () => ({
     meta: [
       { title: "Recommendations — JanNexus" },

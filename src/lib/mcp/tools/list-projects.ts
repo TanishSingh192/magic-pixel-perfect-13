@@ -1,5 +1,5 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
-import { supabaseAnon, jsonText } from "../supabase";
+import { supabaseForUser, jsonText } from "../supabase";
 
 export default defineTool({
   name: "list_projects_and_impact",
@@ -7,8 +7,8 @@ export default defineTool({
   description: "List existing and planned infrastructure projects plus measured impact metrics.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async () => {
-    const sb = supabaseAnon();
+  handler: async (_args, ctx) => {
+    const sb = supabaseForUser(ctx);
     const [p, m] = await Promise.all([
       sb.from("projects").select("*").order("id"),
       sb.from("impact_metrics").select("*").order("recommendation_id"),
