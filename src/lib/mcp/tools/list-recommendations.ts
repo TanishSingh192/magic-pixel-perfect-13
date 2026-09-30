@@ -1,6 +1,6 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { supabaseAnon, jsonText } from "../supabase";
+import { supabaseForUser, jsonText } from "../supabase";
 
 export default defineTool({
   name: "list_recommendations",
@@ -13,8 +13,8 @@ export default defineTool({
       .describe("Only return recommendations with this decision status."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async ({ status }) => {
-    let q = supabaseAnon().from("recommendations").select("*").order("priority_score", { ascending: false });
+  handler: async ({ status }, ctx) => {
+    let q = supabaseForUser(ctx).from("recommendations").select("*").order("priority_score", { ascending: false });
     if (status) q = q.eq("status", status);
     const { data, error } = await q;
     if (error) throw new ToolError(error.message);

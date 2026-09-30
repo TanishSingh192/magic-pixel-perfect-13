@@ -1,6 +1,6 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { supabaseAnon, jsonText } from "../supabase";
+import { supabaseForUser, jsonText } from "../supabase";
 
 export default defineTool({
   name: "list_citizen_requests",
@@ -10,8 +10,8 @@ export default defineTool({
     limit: z.number().int().min(1).max(100).optional().describe("How many reports to return (default 25)."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async ({ limit }) => {
-    const { data, error } = await supabaseAnon()
+  handler: async ({ limit }, ctx) => {
+    const { data, error } = await supabaseForUser(ctx)
       .from("citizen_requests")
       .select("*")
       .order("created_at", { ascending: false })

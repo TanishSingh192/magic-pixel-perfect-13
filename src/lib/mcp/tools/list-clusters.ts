@@ -1,5 +1,5 @@
 import { defineTool, ToolError } from "@lovable.dev/mcp-js";
-import { supabaseAnon, jsonText } from "../supabase";
+import { supabaseForUser, jsonText } from "../supabase";
 
 export default defineTool({
   name: "list_clusters",
@@ -7,8 +7,8 @@ export default defineTool({
   description: "List geographic clusters of citizen development demand, ordered by priority score.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async () => {
-    const { data, error } = await supabaseAnon()
+  handler: async (, ctx) => {
+    const { data, error } = await supabaseForUser(ctx)
       .from("development_clusters")
       .select("*")
       .order("priority_score", { ascending: false });
