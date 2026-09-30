@@ -7,7 +7,7 @@ export default defineTool({
   description: "List existing and planned infrastructure projects plus measured impact metrics.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async (, ctx) => {
+  handler: async (_args, ctx) => {
     const sb = supabaseForUser(ctx);
     const [p, m] = await Promise.all([
       sb.from("projects").select("*").order("id"),

@@ -7,7 +7,7 @@ export default defineTool({
   description: "List geographic clusters of citizen development demand, ordered by priority score.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
-  handler: async (, ctx) => {
+  handler: async (_args, ctx) => {
     const { data, error } = await supabaseForUser(ctx)
       .from("development_clusters")
       .select("*")
